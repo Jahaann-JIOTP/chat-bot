@@ -1,0 +1,27 @@
+Lama 3 - OPEN SOURCE - 
+
+LLM 
+
+For Api Key :
+GROQAPIS
+
+userinput - for user data
+
+response - response data....
+
+Comands For Virtual ENV
+1- py -3.10 -m venv chat_venv
+2- chat_venv\Scripts\activate
+
+
+audioop-lts==0.2.1
+
+
+conda create --prefix ./chatbot_env python=3.13 -y
+
+cd C:\Users\ALPHA TECH\Documents\Jahaann Projects\Server Project\Chatbot - Python
+conda activate ./chatbot_env
+
+ https://8d0f-206-0-214-151.ngrok-free.app
+ 
+ ngrok http 5000

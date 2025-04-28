@@ -1,0 +1,23 @@
+# Python cache
+__pycache__/
+
+# Local virtual environment
+chatbot_env/
+
+# Local chat logs
+chat_logs/
+
+# Local database or vectorstore (optional, if not critical)
+chroma_db/
+
+# Environment variables file
+.env
+
+# Zip files (any .zip files)
+*.zip
+
+# Text log files
+scraper_log.txt
+
+# Optional compiled files
+*.pyc
