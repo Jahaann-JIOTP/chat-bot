@@ -47,6 +47,7 @@ class AdvancedWebScraper:
             'Cache-Control': 'max-age=0',
         }
 
+
     def fetch_url(self, url, depth=3):
         if url in self.visited_urls or depth > self.max_depth:
             return None
