@@ -137,14 +137,12 @@ pymongo==4.11.3
 PyMuPDF==1.25.4
 pypdf==5.3.1
 PyPika==0.48.9
-pypiwin32==223
 pyproject_hooks==1.2.0
 pyreadline3==3.5.4
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pyttsx3==2.98
 pytz==2025.1
-pywin32==309
 PyYAML==6.0.2
 pyzmq==26.3.0
 regex==2024.11.6
