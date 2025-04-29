@@ -31,7 +31,5 @@ Server Comands:
 cd ~/chat-bot
 source venv/bin/activate
 
-
-
 deleted packages form serve :
 pywin32==309pypiwin32==223

@@ -1,20 +1,10 @@
-#!/usr/bin/env python
-# Set USER_AGENT environment variable before anything else
 import os
-import sys
-
-# Set USER_AGENT environment variable and verify it's set
-os.environ['USER_AGENT'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Nexalyze/1.0"
-
-# Verify it's set to debug any issues
-print(f"USER_AGENT is set to: {os.environ.get('USER_AGENT')}")
-
-# Rest of the imports
 import re
 import hashlib
 import json
 from typing import List, Dict, Any, Tuple
 from datetime import datetime
+import re
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -43,37 +33,20 @@ class AdvancedWebScraper:
         self.delay_range = delay_range
         self.max_workers = max_workers
         self.timeout = timeout
-        # Initialize user agent with fallback
-        try:
-            self.ua = UserAgent()
-            # Test if it works
-            test_agent = self.ua.random
-            logger.info(f"UserAgent initialized successfully: {test_agent}")
-        except Exception as e:
-            logger.warning(f"Error initializing UserAgent: {e}. Using fallback.")
-            # Fallback to a standard user agent
-            self.ua = None
+        self.ua = UserAgent()
         self.visited_urls = set()
         self.results = []
-        # Define a fallback user agent
-        self.fallback_user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Nexalyze/1.0"
 
     def get_random_headers(self):
-        try:
-            user_agent = self.ua.random if self.ua else self.fallback_user_agent
-        except Exception:
-            user_agent = self.fallback_user_agent
-            
-        logger.info(f"Using User-Agent: {user_agent}")
-        
         return {
-            'User-Agent': user_agent,
+            'User-Agent': self.ua.random,
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
             'Accept-Language': 'en-US,en;q=0.5',
             'Connection': 'keep-alive',
             'Upgrade-Insecure-Requests': '1',
             'Cache-Control': 'max-age=0',
         }
+
 
     def fetch_url(self, url, depth=3):
         if url in self.visited_urls or depth > self.max_depth:
@@ -267,9 +240,6 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
 
-# Import our SafeWebLoader instead of using WebBaseLoader directly
-from safe_web_loader import SafeWebLoader
-
 # Text to speech imports
 from gtts import gTTS
 
@@ -291,75 +261,37 @@ class KnowledgeBase:
         """Initialize the knowledge base"""
         self.embedding_model = embedding_model
         self.web_scraper = AdvancedWebScraper()
-        # Define a fallback user agent for WebBaseLoader
-        self.fallback_user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Nexalyze/1.0"
         try:
             os.makedirs(KB_FOLDER, exist_ok=True)
             os.makedirs(CHAT_HISTORY_DIR, exist_ok=True)
         except OSError as e:
             print("Error creating directories : {e}")
-            
-    def load_web_page(self, url):
-        """Load content from a web page using SafeWebLoader with a proper user agent"""
-        try:
-            logger.info(f"Loading web page with SafeWebLoader: {url}")
-            # Use SafeWebLoader which already handles user agent properly
-            loader = SafeWebLoader(
-                web_paths=[url],
-                verify_ssl=True,
-                requests_per_second=1  # Rate limiting to be respectful
-            )
-            docs = loader.load()
-            logger.info(f"Successfully loaded {len(docs)} documents from {url}")
-            return docs
-        except Exception as e:
-            logger.error(f"Error loading web page {url}: {e}")
-            return []
-
-    def save_web_content(self, links_list, filename="nexalyze_kb.txt", use_web_loader=False):
-        """Save web content from a list of links to a text file in the KB folder
-        
-        Args:
-            links_list: List of URLs to scrape
-            filename: Output filename
-            use_web_loader: If True, use WebBaseLoader instead of AdvancedWebScraper
-        """
+    
+    def save_web_content(self, links_list, filename="nexalyze_kb.txt"):
+        """Save web content from a list of links to a text file in the KB folder"""
         output_path = os.path.join(KB_FOLDER, filename)
         try:
-            web_data = ""
+            # Scrape the URLs using AdvancedWebScraper
+            self.web_scraper.scrape_urls(links_list)
             
-            if use_web_loader:
-                logger.info("Using WebBaseLoader to fetch content")
-                for url in links_list:
-                    docs = self.load_web_page(url)
-                    if docs:
-                        web_data += f"URL: {url}\n"
-                        for doc in docs:
-                            web_data += f"Title: {doc.metadata.get('title', 'No title')}\n"
-                            web_data += f"Text Content:\n{doc.page_content}\n\n"
-                        web_data += "-" * 80 + "\n\n"
-            else:
-                logger.info("Using AdvancedWebScraper to fetch content")
-                # Scrape the URLs using AdvancedWebScraper
-                self.web_scraper.scrape_urls(links_list)
+            # Combine all scraped content
+            web_data = ""
+            for result in self.web_scraper.results:
+                web_data += f"URL: {result['url']}\n"
+                web_data += f"Title: {result['title']}\n"
+                web_data += f"Text Content:\n{result['text']}\n\n"
                 
-                # Combine all scraped content
-                for result in self.web_scraper.results:
-                    web_data += f"URL: {result['url']}\n"
-                    web_data += f"Title: {result['title']}\n"
-                    web_data += f"Text Content:\n{result['text']}\n\n"
-                    
-                    if result['tables']:
-                        web_data += "Tables:\n"
-                        for table in result['tables']:
-                            web_data += str(table) + "\n\n"
-                    
-                    if result['metadata']:
-                        web_data += "Metadata:\n"
-                        for key, value in result['metadata'].items():
-                            web_data += f"{key}: {value}\n"
-                    
-                    web_data += "-" * 80 + "\n\n"
+                if result['tables']:
+                    web_data += "Tables:\n"
+                    for table in result['tables']:
+                        web_data += str(table) + "\n\n"
+                
+                if result['metadata']:
+                    web_data += "Metadata:\n"
+                    for key, value in result['metadata'].items():
+                        web_data += f"{key}: {value}\n"
+                
+                web_data += "-" * 80 + "\n\n"
 
             # Clean and save the content
             web_data = re.sub(r'\n+', '\n', web_data)
@@ -722,14 +654,9 @@ class NexalyzeChatbot:
                 
                 if links_list:
                     print("Scraping web content...")
-                    
-                    # Ask user which scraper to use
-                    scraper_choice = input("Choose a scraper method (1: AdvancedWebScraper, 2: WebBaseLoader): ")
-                    use_web_loader = scraper_choice == "2"
-                    
                     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
                     filename = f"web_content_{timestamp}.txt"
-                    self.kb.save_web_content(links_list, filename, use_web_loader=use_web_loader)
+                    self.kb.save_web_content(links_list, filename)
                     print("Web content has been saved to the KB folder.")
                     # Refresh the vector database
                     self.vectordb = self.kb.get_or_create_vector_db()
@@ -751,19 +678,6 @@ class NexalyzeChatbot:
 def main():
     """Main function to run the chatbot"""
     try:
-        # Apply monkey patch to requests to always include User-Agent
-        original_request = requests.Session.request
-        
-        def patched_request(self, method, url, **kwargs):
-            if 'headers' not in kwargs:
-                kwargs['headers'] = {}
-            if 'User-Agent' not in kwargs['headers']:
-                kwargs['headers']['User-Agent'] = os.environ.get('USER_AGENT', 
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Nexalyze/1.0")
-            return original_request(self, method, url, **kwargs)
-        
-        requests.Session.request = patched_request
-        
         chatbot = NexalyzeChatbot()
         chatbot.run_cli()
     except Exception as e:
