@@ -2,6 +2,17 @@
 # Set USER_AGENT environment variable before anything else
 import os
 import sys
+###
+import pysqlite3
+sys.modules["sqlite3"] = pysqlite3
+import concurrent.futures
+from urllib.parse import urlparse, urljoin
+from tqdm import tqdm
+from fake_useragent import UserAgent
+from fpdf import FPDF
+import io
+from langchain_community.document_loaders import WebBaseLoader
+###
 
 # Set USER_AGENT environment variable and verify it's set
 os.environ['USER_AGENT'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Nexalyze/1.0"
@@ -21,27 +32,8 @@ import pandas as pd
 import time
 import random
 import logging
-import concurrent.futures
-from urllib.parse import urlparse, urljoin
-from tqdm import tqdm
-from fake_useragent import UserAgent
-from fpdf import FPDF
-import io
-from langchain_community.document_loaders import WebBaseLoader
 
-###
-import sys
-import pysqlite3
-sys.modules["sqlite3"] = pysqlite3
 
-import concurrent.futures
-from urllib.parse import urlparse, urljoin
-from tqdm import tqdm
-from fake_useragent import UserAgent
-from fpdf import FPDF
-import io
-from langchain_community.document_loaders import WebBaseLoader
-###
 
 # Configure logging
 logging.basicConfig(
