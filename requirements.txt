@@ -196,4 +196,4 @@ beautifulsoup4
 pandas 
 tqdm 
 fake-useragent 
-fpdf
+fpdf2
