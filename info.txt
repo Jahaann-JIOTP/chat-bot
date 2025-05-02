@@ -14,7 +14,7 @@ Comands For Virtual ENV
 2- chat_venv\Scripts\activate
 
 
-audioop-lts==0.2.1
+
 
 
 conda create --prefix ./chatbot_env python=3.13 -y
@@ -47,6 +47,7 @@ sudo systemctl restart chatbot
 
 deleted packages form serve :
 pywin32==309pypiwin32==223
-
+SQLAlchemy==2.0.39
+audioop-lts==0.2.1
 
 ssh -i "C:\Users\ALPHA TECH\Documents\Jahaann Projects\Server Instance\instancec.pem" ubuntu@ec2-3-7-12-126.ap-south-1.compute.amazonaws.com
