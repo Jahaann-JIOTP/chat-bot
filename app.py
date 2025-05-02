@@ -29,6 +29,20 @@ from fpdf import FPDF
 import io
 from langchain_community.document_loaders import WebBaseLoader
 
+###
+import sys
+import pysqlite3
+sys.modules["sqlite3"] = pysqlite3
+
+import concurrent.futures
+from urllib.parse import urlparse, urljoin
+from tqdm import tqdm
+from fake_useragent import UserAgent
+from fpdf import FPDF
+import io
+from langchain_community.document_loaders import WebBaseLoader
+###
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
