@@ -30,6 +30,23 @@ conda activate ./chatbot_env
 Server Comands:
 cd ~/chat-bot
 source venv/bin/activate
+git restore kb_metadata.json
+
+
+stop the auto start of the chatbot :
+sudo systemctl stop chatbot
+
+ngrok: https://3b8a-3-7-12-126.ngrok-free.app
+
+// check status of chatbot on server:
+ sudo systemctl status chatbot
+// To restart the chatbot service :
+sudo systemctl restart chatbot
+
+
 
 deleted packages form serve :
 pywin32==309pypiwin32==223
+
+
+ssh -i "C:\Users\ALPHA TECH\Documents\Jahaann Projects\Server Instance\instancec.pem" ubuntu@ec2-3-7-12-126.ap-south-1.compute.amazonaws.com
