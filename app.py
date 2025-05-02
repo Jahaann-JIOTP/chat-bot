@@ -262,7 +262,7 @@ from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
 
 # Vector DB imports
-from langchain_chroma import Chroma
+# from langchain_chroma import Chroma
 
 # Memory imports
 from langchain_community.chat_message_histories import ChatMessageHistory
@@ -286,7 +286,7 @@ load_dotenv()
 # Constants
 KB_FOLDER = "KB"  # Folder containing knowledge base files
 METADATA_FILE = "kb_metadata.json"  # File to store metadata about processed files
-PERSIST_DIRECTORY = "chroma_db"  # Directory for Chroma DB
+# PERSIST_DIRECTORY = "chroma_db"  # Directory for Chroma DB
 CHAT_HISTORY_DIR = "chat_logs"  # Directory to store chat history
 
 
