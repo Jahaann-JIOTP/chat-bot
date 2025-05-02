@@ -11,7 +11,7 @@ chat_logs/
 chroma_db/
 
 # Environment variables file
-.env
+
 
 # Zip files (any .zip files)
 *.zip
