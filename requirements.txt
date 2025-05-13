@@ -195,3 +195,8 @@ pandas
 tqdm 
 fake-useragent 
 fpdf2
+flask==3.0.3
+flask-cors==4.0.1
+beautifulsoup4==4.12.3
+fake-useragent==1.5.1
+fpdf2==2.7.8

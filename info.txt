@@ -52,4 +52,12 @@ audioop-lts==0.2.1
 chromadb==0.6.3
 
 
+
+Added these in requirement.txt:
+flask==3.0.3
+flask-cors==4.0.1
+beautifulsoup4==4.12.3
+fake-useragent==1.5.1
+fpdf2==2.7.8
+
 ssh -i "C:\Users\ALPHA TECH\Documents\Jahaann Projects\Server Instance\instancec.pem" ubuntu@ec2-3-7-12-126.ap-south-1.compute.amazonaws.com
