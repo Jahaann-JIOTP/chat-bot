@@ -34,7 +34,7 @@ import random
 import logging
 
 
-
+PERSIST_DIRECTORY = "/var/www/html/chat-bot/vector_store"
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -263,7 +263,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 
 # Vector DB imports
 # from langchain_chroma import Chroma
-from langchain.vectorstores import Chroma
+from langchain_community.vectorstores import Chroma
 
 
 # Memory imports
