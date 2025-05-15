@@ -61,3 +61,7 @@ fake-useragent==1.5.1
 fpdf2==2.7.8
 
 ssh -i "C:\Users\ALPHA TECH\Documents\Jahaann Projects\Server Instance\instancec.pem" ubuntu@ec2-3-7-12-126.ap-south-1.compute.amazonaws.com
+
+
+key old 
+# GROQ_API_KEY = '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'
