@@ -263,6 +263,8 @@ from langchain_huggingface import HuggingFaceEmbeddings
 
 # Vector DB imports
 # from langchain_chroma import Chroma
+from langchain.vectorstores import Chroma
+
 
 # Memory imports
 from langchain_community.chat_message_histories import ChatMessageHistory
