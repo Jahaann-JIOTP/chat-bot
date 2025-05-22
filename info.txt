@@ -22,7 +22,7 @@ conda create --prefix ./chatbot_env python=3.13 -y
 cd C:\Users\ALPHA TECH\Documents\Jahaann Projects\Server Project\Chatbot - Python
 conda activate ./chatbot_env
 
- https://8d0f-206-0-214-151.ngrok-free.app
+ https://8d0f-206-0-214-151.ngrok-free.app  - aysa aik url mily ga agy / api likh dyna ap 
  
  ngrok http 5000
 
@@ -65,3 +65,5 @@ ssh -i "C:\Users\ALPHA TECH\Documents\Jahaann Projects\Server Instance\instancec
 
 key old 
 # GROQ_API_KEY = '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'
+
+currently hammad account key is used on server and local
